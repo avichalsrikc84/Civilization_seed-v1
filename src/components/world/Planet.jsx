@@ -15,6 +15,14 @@ import CivilizationNodes
   from './CivilizationNodes'
 
 
+
+import AttentionWave
+  from './AttentionWave'
+
+import AutonomousConsciousness
+  from './AutonomousConsciousness'
+
+
 export default function Planet() {
   const earthRef = useRef()
 
@@ -111,14 +119,18 @@ export default function Planet() {
           map={colorMap}
           emissiveMap={nightMap}
           emissive={
-            new THREE.Color(
-              '#facc15'
-            )
-          }
+  new THREE.Color(
+    stage >= 6
+      ? '#38bdf8'
+      : '#facc15'
+  )
+}
           emissiveIntensity={
-            0.15 +
-            stage * 0.18
-          }
+  stage >= 6
+    ? 2.5
+    : 0.15 +
+      stage * 0.18
+}
           roughness={1}
           metalness={0}
         />
@@ -160,6 +172,10 @@ export default function Planet() {
 
       {/* CIVILIZATION NODES */}
       <CivilizationNodes />
+
+<AttentionWave />
+
+<AutonomousConsciousness />
 
     </group>
   )

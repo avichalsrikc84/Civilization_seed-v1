@@ -17,11 +17,11 @@ export default function HUD() {
         }}
       >
         <h1 className="text-6xl font-black tracking-[0.4em] text-white">
-          CIVILIZATION SEED
+          DIGITAL UNIVERSE
         </h1>
 
         <p className="mt-4 text-blue-300 text-lg tracking-[0.3em]">
-          Witness the birth of infinite civilizations
+          Watch your knowledge become a universe
         </p>
       </motion.div>
     </div>

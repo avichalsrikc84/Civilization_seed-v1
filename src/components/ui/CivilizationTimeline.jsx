@@ -2,12 +2,12 @@ import { useCivilizationStore }
   from '../../store/civilizationStore'
 
 const stages = [
-  'Dormant',
-  'Awakening',
-  'Expansion',
-  'Global Network',
-  'Orbital Age',
-  'Interstellar',
+  'Identity',
+  'Knowledge',
+  'Projects',
+  'Network',
+  'Impact',
+  'Universe',
 ]
 
 export default function CivilizationTimeline() {
@@ -94,15 +94,28 @@ export default function CivilizationTimeline() {
         "
       >
         <div className="text-xs opacity-60 tracking-[0.2em]">
-          CIVILIZATION
+          DIGITAL GROWTH
         </div>
 
         <div className="mt-1 text-3xl font-bold">
-          {nodes.length}
+          {
+  stage >= 6
+    ? nodes.length
+    : Math.min(
+        100,
+        Math.floor(
+          nodes.length * 0.7
+        )
+      )
+}
         </div>
 
         <div className="text-xs opacity-50">
-          active seeds
+          {
+  stage >= 6
+    ? 'neural nodes'
+    : 'knowledge index'
+}
         </div>
       </div>
     </>

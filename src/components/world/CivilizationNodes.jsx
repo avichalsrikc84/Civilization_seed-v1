@@ -10,15 +10,26 @@ export default function CivilizationNodes() {
       (state) => state.nodes
     )
 
+  const stage =
+    useCivilizationStore(
+      (state) => state.stage
+    )
+
+  // ONLY SHOW IN INTERSTELLAR
+  if (stage < 6) return null
+
   return (
     <>
-      {nodes.map((node) => (
-        <CivilizationNode
-          key={node.id}
-          lat={node.lat}
-          lon={node.lon}
-        />
-      ))}
+      {nodes.map(
+        (node, index) => (
+          <CivilizationNode
+            key={node.id}
+            lat={node.lat}
+            lon={node.lon}
+            index={index}
+          />
+        )
+      )}
     </>
   )
 }

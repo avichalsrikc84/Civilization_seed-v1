@@ -19,6 +19,9 @@ import CameraRig
 import { useCivilizationStore }
   from '../store/civilizationStore'
 
+import SkillConstellation
+from '../components/constellations/SkillConstellation'
+
 export default function MainScene() {
   const stage =
     useCivilizationStore(
@@ -30,6 +33,8 @@ export default function MainScene() {
       <CameraRig />
 
       <Planet />
+
+      <SkillConstellation />
 
 
       {stage >= 5 && (

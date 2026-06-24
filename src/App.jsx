@@ -7,6 +7,9 @@ import {
 
 import { Suspense } from 'react'
 
+import DigitalDNAHUD
+  from './components/ui/DigitalDNAHUD'
+
 import MainScene from './scenes/MainScene'
 
 import HUD from './components/ui/HUD'
@@ -20,7 +23,7 @@ export default function App() {
   return (
     <div className="w-screen h-screen overflow-hidden bg-black">
       <HUD />
-
+      <DigitalDNAHUD />
       <CivilizationTimeline />
 
       <Canvas
@@ -75,7 +78,7 @@ export default function App() {
   autoRotate={false}
 
   minDistance={7}
-  maxDistance={18}
+  maxDistance={19}
 
   // LIMIT VERTICAL ROTATION
   minPolarAngle={

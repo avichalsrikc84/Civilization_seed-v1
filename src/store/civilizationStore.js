@@ -20,6 +20,8 @@ export const useCivilizationStore =
 
     nodes: [],
 
+    activeRegion: null,
+
     growthStarted: false,
 
     setStage: (stage) =>
@@ -28,15 +30,34 @@ export const useCivilizationStore =
         manualStage: true,
       }),
 
+    setActiveRegion: (
+      lat,
+      lon
+    ) =>
+      set({
+        activeRegion: {
+          lat,
+          lon,
+          timestamp: Date.now(),
+        },
+      }),
+
     addNode: (lat, lon) => {
       const state = get()
 
-      // START ONLY AFTER FIRST CLICK
       if (!state.growthStarted) {
         set({
           growthStarted: true,
         })
       }
+
+      set({
+        activeRegion: {
+          lat,
+          lon,
+          timestamp: Date.now(),
+        },
+      })
 
       set((state) => {
         if (
@@ -48,20 +69,19 @@ export const useCivilizationStore =
 
         const nodes = [
           ...state.nodes,
-
-          {
-            id:
-              Date.now() +
-              Math.random(),
-
-            lat,
-            lon,
-
-            energy: 1,
-          },
         ]
 
-        // AUTO STAGES
+        nodes.push({
+          id:
+            Date.now() +
+            Math.random(),
+
+          lat,
+          lon,
+
+          energy: 1,
+        })
+
         let autoStage = 1
 
         if (nodes.length > 8)
@@ -89,7 +109,6 @@ export const useCivilizationStore =
       })
     },
 
-    // GRADUAL CIVILIZATION GROWTH
     spreadCivilization: () =>
       set((state) => {
         if (
@@ -108,7 +127,6 @@ export const useCivilizationStore =
           ...state.nodes,
         ]
 
-        // RANDOMLY EXPAND FROM EXISTING NODES
         const source =
           nodes[
             Math.floor(
@@ -138,7 +156,6 @@ export const useCivilizationStore =
             0.05,
         })
 
-        // AUTO STAGES
         let autoStage = 1
 
         if (nodes.length > 8)
@@ -166,7 +183,6 @@ export const useCivilizationStore =
       }),
   }))
 
-// CONTINUOUS EVOLUTION LOOP
 setInterval(() => {
   useCivilizationStore
     .getState()
