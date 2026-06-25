@@ -28,6 +28,9 @@ export default function SkillStar({
     const hoverScale =
       hovered ? 1.4 : 1
 
+    orbitSpeed:
+0.2 + Math.random() * 0.3
+
     meshRef.current.scale.setScalar(
       pulse * hoverScale
     )

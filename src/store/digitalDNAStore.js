@@ -3,7 +3,7 @@ import { create } from 'zustand'
 export const useDigitalDNAStore =
   create(() => ({
     profile: {
-      name: 'Aviral',
+      name: 'Avichal',
 
       role:
         'Aspiring Data Analyst',
@@ -52,38 +52,34 @@ export const useDigitalDNAStore =
     projects: [
       {
         id: 1,
-
-        name:
-          'Galaxy Visualizer',
-
+        name: 'Galaxy Visualizer',
         score: 92,
-
-        category:
-          'Visualization',
+        category: 'Visualization',
+        color: '#8b5cf6',
       },
 
       {
         id: 2,
-
-        name:
-          'EV Prediction',
-
+        name: 'EV Prediction',
         score: 85,
-
-        category:
-          'Machine Learning',
+        category: 'Machine Learning',
+        color: '#22c55e',
       },
 
       {
         id: 3,
-
-        name:
-          'Health Dashboard',
-
+        name: 'Health Dashboard',
         score: 82,
+        category: 'Analytics',
+        color: '#06b6d4',
+      },
 
-        category:
-          'Analytics',
+      {
+        id: 4,
+        name: 'Medical Chatbot',
+        score: 88,
+        category: 'AI',
+        color: '#f97316',
       },
     ],
 
@@ -91,22 +87,18 @@ export const useDigitalDNAStore =
       {
         name:
           'Data Analyst',
-
         readiness: 78,
       },
 
       {
         name: 'SDE',
-
         readiness: 63,
       },
     ],
 
     weaknesses: [
       'Advanced SQL',
-
       'Statistics',
-
       'System Design',
     ],
   }))

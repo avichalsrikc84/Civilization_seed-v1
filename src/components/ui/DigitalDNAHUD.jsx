@@ -122,7 +122,8 @@ p-4
           text-cyan-200
         "
         >
-          {weaknesses[0]}
+          {weaknesses?.[0] ||
+  'Keep Learning'}
         </div>
       </div>
     </div>

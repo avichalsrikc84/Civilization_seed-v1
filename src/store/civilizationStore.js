@@ -14,21 +14,30 @@ function randomNearby(lat, lon) {
 
 export const useCivilizationStore =
   create((set, get) => ({
+    // ======================
+    // STAGES
+    // ======================
+
     stage: 1,
-
-    manualStage: false,
-
-    nodes: [],
-
-    activeRegion: null,
-
-    growthStarted: false,
 
     setStage: (stage) =>
       set({
         stage,
-        manualStage: true,
       }),
+
+    // ======================
+    // CIVILIZATION DATA
+    // ======================
+
+    nodes: [],
+
+    growthStarted: false,
+
+    activeRegion: null,
+
+    // ======================
+    // USER ATTENTION
+    // ======================
 
     setActiveRegion: (
       lat,
@@ -41,6 +50,10 @@ export const useCivilizationStore =
           timestamp: Date.now(),
         },
       }),
+
+    // ======================
+    // MANUAL SEED CREATION
+    // ======================
 
     addNode: (lat, lon) => {
       const state = get()
@@ -67,54 +80,36 @@ export const useCivilizationStore =
           return state
         }
 
-        const nodes = [
-          ...state.nodes,
-        ]
-
-        nodes.push({
-          id:
-            Date.now() +
-            Math.random(),
-
-          lat,
-          lon,
-
-          energy: 1,
-        })
-
-        let autoStage = 1
-
-        if (nodes.length > 8)
-          autoStage = 2
-
-        if (nodes.length > 25)
-          autoStage = 3
-
-        if (nodes.length > 55)
-          autoStage = 4
-
-        if (nodes.length > 95)
-          autoStage = 5
-
-        if (nodes.length > 135)
-          autoStage = 6
-
         return {
-          nodes,
+          nodes: [
+            ...state.nodes,
 
-          stage: state.manualStage
-            ? state.stage
-            : autoStage,
+            {
+              id:
+                Date.now() +
+                Math.random(),
+
+              lat,
+              lon,
+
+              energy: 1,
+            },
+          ],
         }
       })
     },
+
+    // ======================
+    // ORGANIC GROWTH
+    // ======================
 
     spreadCivilization: () =>
       set((state) => {
         if (
           !state.growthStarted
-        )
+        ) {
           return state
+        }
 
         if (
           state.nodes.length >=
@@ -123,19 +118,16 @@ export const useCivilizationStore =
           return state
         }
 
-        const nodes = [
-          ...state.nodes,
-        ]
-
         const source =
-          nodes[
+          state.nodes[
             Math.floor(
               Math.random() *
-                nodes.length
+                state.nodes.length
             )
           ]
 
-        if (!source) return state
+        if (!source)
+          return state
 
         const nearby =
           randomNearby(
@@ -143,45 +135,31 @@ export const useCivilizationStore =
             source.lon
           )
 
-        nodes.push({
-          id:
-            Date.now() +
-            Math.random(),
-
-          lat: nearby.lat,
-          lon: nearby.lon,
-
-          energy:
-            (source.energy || 1) +
-            0.05,
-        })
-
-        let autoStage = 1
-
-        if (nodes.length > 8)
-          autoStage = 2
-
-        if (nodes.length > 25)
-          autoStage = 3
-
-        if (nodes.length > 55)
-          autoStage = 4
-
-        if (nodes.length > 95)
-          autoStage = 5
-
-        if (nodes.length > 135)
-          autoStage = 6
-
         return {
-          nodes,
+          nodes: [
+            ...state.nodes,
 
-          stage: state.manualStage
-            ? state.stage
-            : autoStage,
+            {
+              id:
+                Date.now() +
+                Math.random(),
+
+              lat: nearby.lat,
+
+              lon: nearby.lon,
+
+              energy:
+                (source.energy ||
+                  1) + 0.05,
+            },
+          ],
         }
       }),
   }))
+
+// ======================
+// AUTO GROWTH LOOP
+// ======================
 
 setInterval(() => {
   useCivilizationStore

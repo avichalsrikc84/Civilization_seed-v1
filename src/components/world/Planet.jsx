@@ -170,12 +170,6 @@ export default function Planet() {
         />
       </mesh>
 
-      {/* CIVILIZATION NODES */}
-      <CivilizationNodes />
-
-<AttentionWave />
-
-<AutonomousConsciousness />
 
     </group>
   )
