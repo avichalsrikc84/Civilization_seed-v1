@@ -1,6 +1,9 @@
-import { Html, useGLTF } from '@react-three/drei'
+import * as THREE from 'three'
+import { useGLTF } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { useRef, useState } from 'react'
+
+import { useNetworkStore } from '../../store/networkStore'
 
 export default function ProjectSatellite({
   project,
@@ -15,19 +18,26 @@ export default function ProjectSatellite({
 
   const [hovered, setHovered] = useState(false)
 
+  const {
+    selectedProject,
+    setHoveredProject,
+    setSelectedProject,
+  } = useNetworkStore()
+
+  const isFocused =
+    selectedProject?.id === project.id
+
   useFrame((state) => {
     if (!groupRef.current) return
 
-    const t =
-      state.clock.elapsedTime * speed +
-      angleOffset
+    // Stop orbit when selected
+    const t = isFocused
+      ? angleOffset
+      : state.clock.elapsedTime * speed +
+        angleOffset
 
-    const x =
-      Math.cos(t) * radius
-
-    const z =
-      Math.sin(t) * radius
-
+    const x = Math.cos(t) * radius
+    const z = Math.sin(t) * radius
     const y =
       Math.sin(t * 0.8) * 0.25
 
@@ -37,93 +47,63 @@ export default function ProjectSatellite({
       z
     )
 
-    // Orbit tilt
     groupRef.current.rotation.x =
       orbitTilt
 
-    // Face Earth
     groupRef.current.lookAt(0, 0, 0)
 
-    // Small self rotation
     groupRef.current.rotateZ(0.01)
+
+    const targetScale =
+      isFocused ? 0.12 : 0.08
+
+groupRef.current.scale.lerp(
+  new THREE.Vector3(
+    targetScale,
+    targetScale,
+    targetScale
+  ),
+  0.08
+)
   })
 
   return (
     <group ref={groupRef}>
       <primitive
         object={scene.clone()}
-        scale={0.08}
-        onPointerOver={() =>
+        onPointerOver={() => {
           setHovered(true)
-        }
-        onPointerOut={() =>
+          setHoveredProject(project)
+        }}
+        onPointerOut={() => {
           setHovered(false)
+          setHoveredProject(null)
+        }}
+        onClick={() =>
+          setSelectedProject(project)
         }
       />
 
       <pointLight
         color={project.color}
-        intensity={2}
-        distance={3}
+        intensity={
+          isFocused ? 5 : 2
+        }
+        distance={
+          isFocused ? 6 : 3
+        }
       />
 
       {hovered && (
-        <Html
-          center
-          distanceFactor={10}
-          position={[0, 0.6, 0]}
-        >
-          <div
-            className="
-              min-w-[220px]
-              rounded-2xl
-              bg-black/90
-              border
-              border-cyan-500/20
-              backdrop-blur-xl
-              p-4
-            "
-          >
-            <div
-              className="
-                text-white
-                font-semibold
-              "
-            >
-              {project.name}
-            </div>
+        <mesh position={[0, 0.25, 0]}>
+          <sphereGeometry
+            args={[0.04, 10, 10]}
+          />
 
-            <div
-              className="
-                mt-1
-                text-cyan-300
-                text-xs
-              "
-            >
-              {project.category}
-            </div>
-
-            <div
-              className="
-                mt-4
-                text-white/60
-                text-xs
-              "
-            >
-              Recruiter Score
-            </div>
-
-            <div
-              className="
-                text-green-400
-                text-xl
-                font-bold
-              "
-            >
-              {project.score}/100
-            </div>
-          </div>
-        </Html>
+          <meshBasicMaterial
+            color="#7dd3fc"
+          />
+        </mesh>
       )}
     </group>
   )

@@ -85,120 +85,146 @@ export const useDigitalDNAStore = create(() => ({
   // ======================================================
 
   projects: [
-    {
-      id: 1,
+  {
+    id: 1,
 
-      name: 'Galaxy Visualizer',
+    name: 'Galaxy Visualizer',
 
-      category: 'Visualization',
+    category: '3D Visualization',
 
-      score: 92,
+    score: 98,
 
-      color: '#8b5cf6',
+    color: '#38bdf8',
 
-      description:
-        'Interactive 3D GitHub Universe built with React Three Fiber.',
+    description:
+      'Interactive 3D universe that visualizes GitHub repositories as planets and civilizations.',
 
-      technologies: [
-        'React',
-        'Three.js',
-        'JavaScript',
-      ],
+    stack: [
+      'React',
+      'Three.js',
+      'React Three Fiber',
+      'Next.js',
+      'GitHub API',
+      'Post Processing',
+    ],
 
-      difficulty: 95,
+    github:
+      'https://github.com/yourusername/galaxy',
 
-      impact: 92,
+    demo:
+      'https://your-demo.com',
 
-      github: '',
+    recruiterNotes: [
+      'Complex 3D Rendering',
+      'Real-time Animations',
+      'Custom Camera System',
+      'Advanced UI/UX',
+    ],
+  },
 
-      demo: '',
-    },
+  {
+    id: 2,
 
-    {
-      id: 2,
+    name: 'EV Prediction',
 
-      name: 'EV Prediction',
+    category: 'Machine Learning',
 
-      category: 'Machine Learning',
+    score: 92,
 
-      score: 85,
+    color: '#22c55e',
 
-      color: '#22c55e',
+    description:
+      'Machine Learning model predicting EV driving range with dashboard visualization.',
 
-      description:
-        'Machine Learning model predicting electric vehicle range.',
+    stack: [
+      'Python',
+      'Scikit-learn',
+      'Pandas',
+      'Power BI',
+    ],
 
-      technologies: [
-        'Python',
-        'Machine Learning',
-        'SQL',
-      ],
+    github:
+      'https://github.com/yourusername/ev',
 
-      difficulty: 86,
+    demo:
+      'https://demo.com',
 
-      impact: 88,
+    recruiterNotes: [
+      'Regression Modeling',
+      'Feature Engineering',
+      'Data Visualization',
+    ],
+  },
 
-      github: '',
+  {
+    id: 3,
 
-      demo: '',
-    },
+    name: 'Health Dashboard',
 
-    {
-      id: 3,
+    category: 'Analytics',
 
-      name: 'Health Dashboard',
+    score: 90,
 
-      category: 'Analytics',
+    color: '#06b6d4',
 
-      score: 82,
+    description:
+      'Interactive dashboard exploring health conditions across demographic groups.',
 
-      color: '#06b6d4',
+    stack: [
+      'Power BI',
+      'Excel',
+      'SQL',
+      'Python',
+    ],
 
-      description:
-        'Interactive Power BI dashboard for healthcare insights.',
+    github:
+      'https://github.com/yourusername/dashboard',
 
-      technologies: [
-        'Power BI',
-        'SQL',
-      ],
+    demo:
+      'https://demo.com',
 
-      difficulty: 74,
+    recruiterNotes: [
+      'Dashboard Design',
+      'Business Analytics',
+      'Data Storytelling',
+    ],
+  },
 
-      impact: 80,
+  {
+    id: 4,
 
-      github: '',
+    name: 'Medical Chatbot',
 
-      demo: '',
-    },
+    category: 'Generative AI',
 
-    {
-      id: 4,
+    score: 94,
 
-      name: 'Medical Chatbot',
+    color: '#f97316',
 
-      category: 'AI',
+    description:
+      'LLM-powered healthcare assistant using Retrieval-Augmented Generation.',
 
-      score: 88,
+    stack: [
+      'LangChain',
+      'Python',
+      'Streamlit',
+      'Vector DB',
+      'LLM',
+    ],
 
-      color: '#f97316',
+    github:
+      'https://github.com/yourusername/chatbot',
 
-      description:
-        'LLM-powered healthcare chatbot using Retrieval-Augmented Generation.',
+    demo:
+      'https://demo.com',
 
-      technologies: [
-        'Python',
-        'Machine Learning',
-      ],
-
-      difficulty: 90,
-
-      impact: 91,
-
-      github: '',
-
-      demo: '',
-    },
-  ],
+    recruiterNotes: [
+      'RAG Pipeline',
+      'Prompt Engineering',
+      'Vector Search',
+    ],
+  },
+],
 
   relationships: [
   {

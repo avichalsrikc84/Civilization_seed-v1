@@ -7,25 +7,41 @@ import {
 
 import { Suspense } from 'react'
 
-import DigitalDNAHUD
-  from './components/ui/DigitalDNAHUD'
-
 import MainScene from './scenes/MainScene'
 
 import HUD from './components/ui/HUD'
+import DigitalDNAHUD from './components/ui/DigitalDNAHUD'
+import CivilizationTimeline from './components/ui/CivilizationTimeline'
 
 import PostFX from './components/effects/PostFX'
 
-import CivilizationTimeline
-  from './components/ui/CivilizationTimeline'
+import SatelliteHUD from './components/network/SatelliteHUD'
+
+import { useNetworkStore } from './store/networkStore'
+
+function NetworkHUDWrapper() {
+  const project = useNetworkStore(
+    (s) => s.selectedProject
+  )
+
+  return (
+    <SatelliteHUD project={project} />
+  )
+}
 
 export default function App() {
   return (
     <div className="w-screen h-screen overflow-hidden bg-black">
+      {/* UI */}
       <HUD />
+
       <DigitalDNAHUD />
+
       <CivilizationTimeline />
 
+      <NetworkHUDWrapper />
+
+      {/* 3D Scene */}
       <Canvas
         dpr={[1, 1.5]}
         camera={{
@@ -34,13 +50,24 @@ export default function App() {
           near: 0.1,
           far: 2000,
         }}
+
+        onPointerMissed={() => {
+          useNetworkStore
+            .getState()
+            .clearSelection()
+        }}
       >
         <fog
           attach="fog"
-          args={['#020617', 15, 80]}
+          args={[
+            '#020617',
+            15,
+            80,
+          ]}
         />
 
-        {/* LIGHTING */}
+        {/* LIGHTS */}
+
         <ambientLight intensity={1.8} />
 
         <directionalLight
@@ -55,7 +82,8 @@ export default function App() {
           color="#1e3a8a"
         />
 
-        {/* ULTRA STARFIELD */}
+        {/* STARFIELD */}
+
         <Stars
           radius={300}
           depth={80}
@@ -72,30 +100,23 @@ export default function App() {
           <PostFX />
         </Suspense>
 
-<OrbitControls
-  enablePan={false}
-  enableZoom
-  autoRotate={false}
+        <OrbitControls
+          enablePan={false}
+          enableZoom
+          enableDamping
+          dampingFactor={0.05}
 
-  minDistance={7}
-  maxDistance={19}
+          minDistance={7}
+          maxDistance={19}
 
-  // LIMIT VERTICAL ROTATION
-  minPolarAngle={
-    Math.PI / 2.15
-  }
+          minPolarAngle={
+            Math.PI / 2.15
+          }
 
-  maxPolarAngle={
-    Math.PI / 1.95
-  }
-
-  // ALLOW FULL LEFT/RIGHT
-  minAzimuthAngle={-Infinity}
-  maxAzimuthAngle={Infinity}
-
-  enableDamping
-  dampingFactor={0.05}
-/>
+          maxPolarAngle={
+            Math.PI / 1.95
+          }
+        />
       </Canvas>
     </div>
   )
