@@ -1,9 +1,5 @@
-import AttentionWave from '../world/AttentionWave'
+import SatelliteNetwork from '../network/SatelliteNetwork'
 
 export default function NetworkLayer() {
-  return (
-    <>
-      <AttentionWave />
-    </>
-  )
+  return <SatelliteNetwork />
 }

@@ -24,12 +24,9 @@ export default function SkillConstellation() {
 
       return {
         skill,
-
         position: [
           Math.cos(angle) * radius,
-
           Math.sin(angle * 1.5) * 1.2,
-
           Math.sin(angle) * radius,
         ],
       }
