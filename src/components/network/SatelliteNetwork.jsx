@@ -5,10 +5,10 @@ import AIHub from './AIHub'
 import { useDigitalDNAStore } from '../../store/digitalDNAStore'
 
 export default function SatelliteNetwork() {
-  const projects =
-    useDigitalDNAStore(
-      (s) => s.projects
-    )
+  // ⭐ Network Phase now uses AI Agents
+  const agents = useDigitalDNAStore(
+    (s) => s.agents
+  )
 
   return (
     <>
@@ -29,46 +29,42 @@ export default function SatelliteNetwork() {
         tilt={-0.45}
       />
 
-      {projects.map(
-        (project, index) => {
-          let radius = 3.2
-          let speed = 0.35
-          let tilt = 0
+      {agents.map((agent, index) => {
+        let radius = 3.2
+        let speed = 0.35
+        let tilt = 0
 
-          switch (index % 3) {
-            case 1:
-              radius = 4.3
-              speed = 0.25
-              tilt = 0.4
-              break
+        switch (index % 3) {
+          case 1:
+            radius = 4.3
+            speed = 0.25
+            tilt = 0.4
+            break
 
-            case 2:
-              radius = 5.4
-              speed = 0.18
-              tilt = -0.45
-              break
+          case 2:
+            radius = 5.4
+            speed = 0.18
+            tilt = -0.45
+            break
 
-            default:
-              break
-          }
-
-          return (
-            <ProjectSatellite
-              key={project.id}
-              project={project}
-              radius={radius}
-              speed={speed}
-              orbitTilt={tilt}
-              angleOffset={
-                (Math.PI *
-                  2 *
-                  index) /
-                projects.length
-              }
-            />
-          )
+          default:
+            break
         }
-      )}
+
+        return (
+          <ProjectSatellite
+            key={agent.id}
+            project={agent}   // We keep the prop name "project"
+            radius={radius}
+            speed={speed}
+            orbitTilt={tilt}
+            angleOffset={
+              (Math.PI * 2 * index) /
+              agents.length
+            }
+          />
+        )
+      })}
     </>
   )
 }

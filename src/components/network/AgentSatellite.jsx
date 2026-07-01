@@ -4,8 +4,9 @@ import { useFrame } from '@react-three/fiber'
 import { useRef, useState } from 'react'
 
 import { useNetworkStore } from '../../store/networkStore'
-import { runAgent }
-from '../../utils/demoTaskRunner'
+import SatelliteEffects
+from './effects/SatelliteEffects'
+
 
 export default function ProjectSatellite({
   project,
@@ -20,17 +21,11 @@ export default function ProjectSatellite({
 
   const [hovered, setHovered] = useState(false)
 
-const selectedProject = useNetworkStore(
-  (s) => s.selectedProject
-)
-
-const setHoveredProject = useNetworkStore(
-  (s) => s.setHoveredProject
-)
-
-const setSelectedProject = useNetworkStore(
-  (s) => s.setSelectedProject
-)
+  const {
+    selectedProject,
+    setHoveredProject,
+    setSelectedProject,
+  } = useNetworkStore()
 
   const isFocused =
     selectedProject?.id === project.id
@@ -87,11 +82,9 @@ groupRef.current.scale.lerp(
           setHovered(false)
           setHoveredProject(null)
         }}
-        onClick={() => {
-    setSelectedProject(project)
-
-    runAgent(project.source)
-}}
+        onClick={() =>
+          setSelectedProject(project)
+        }
       />
 
       <pointLight
@@ -103,6 +96,12 @@ groupRef.current.scale.lerp(
           isFocused ? 6 : 3
         }
       />
+
+      <primitive
+    object={scene.clone()}
+/>
+
+<SatelliteEffects />
 
       {hovered && (
         <mesh position={[0, 0.25, 0]}>
