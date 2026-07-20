@@ -10,7 +10,7 @@ import { useGLTF } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 
 import { useNetworkStore } from '../../store/networkStore'
-import { runAgentRuntime } from '../../runtime/AgentRuntime'
+import AgentRuntime from '../../runtime/AgentRuntime'
 
 export default function ProjectSatellite({
   project,
