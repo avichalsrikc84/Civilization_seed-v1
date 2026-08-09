@@ -1,16 +1,18 @@
-import * as THREE from 'three'
+import * as THREE from "three";
 
 import {
+  useMemo,
   useRef,
   useState,
-  useMemo,
-} from 'react'
+} from "react";
 
-import { useGLTF } from '@react-three/drei'
-import { useFrame } from '@react-three/fiber'
+import { useGLTF } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
 
-import { useNetworkStore } from '../../store/networkStore'
-import AgentRuntime from '../../runtime/AgentRuntime'
+import { useNetworkStore } from "../../store/networkStore";
+import { useSpeechStore } from "../../store/speechStore";
+
+import AgentRuntime from "../../runtime/AgentRuntime";
 
 export default function ProjectSatellite({
   project,
@@ -19,62 +21,101 @@ export default function ProjectSatellite({
   angleOffset,
   orbitTilt = 0,
 }) {
-  const groupRef = useRef()
+  //--------------------------------------------------
+  // REFS
+  //--------------------------------------------------
 
-  const lightRef = useRef()
+  const groupRef = useRef();
 
-  // ---------- Performance ----------
+  const lightRef = useRef();
 
-  const scaleTarget =
-    useRef(new THREE.Vector3())
+  const satelliteRef = useRef();
 
-  const desiredPosition =
-    useRef(new THREE.Vector3())
+  //--------------------------------------------------
+  // PERFORMANCE
+  //--------------------------------------------------
 
-  const speedVariation =
-    useMemo(
-      () =>
-        0.96 +
-        Math.random() * 0.08,
-      []
-    )
+  const desiredPosition = useRef(
+    new THREE.Vector3()
+  );
 
-  // ---------- Model ----------
+  const scaleTarget = useRef(
+    new THREE.Vector3()
+  );
 
-  const { scene } =
-    useGLTF(
-      '/models/satellite.glb'
-    )
+  const rotationTarget = useRef(0);
 
-  const satellite =
-    useMemo(
-      () => scene.clone(),
-      [scene]
-    )
+  const pulse = useRef(0);
 
-  // ---------- UI ----------
+  const wobble = useRef(0);
+
+  const speedVariation = useMemo(
+    () => 0.96 + Math.random() * 0.08,
+    []
+  );
+
+  //--------------------------------------------------
+  // LOAD MODEL
+  //--------------------------------------------------
+
+  const { scene } = useGLTF(
+    "/models/satellite.glb"
+  );
+
+  const satellite = useMemo(
+    () => scene.clone(),
+    [scene]
+  );
+
+  //--------------------------------------------------
+  // LOCAL UI
+  //--------------------------------------------------
 
   const [hovered, setHovered] =
-    useState(false)
+    useState(false);
+
+  //--------------------------------------------------
+  // GLOBAL STORE
+  //--------------------------------------------------
 
   const selectedProject =
     useNetworkStore(
       (s) => s.selectedProject
-    )
+    );
 
   const setHoveredProject =
     useNetworkStore(
       (s) => s.setHoveredProject
-    )
+    );
 
   const setSelectedProject =
     useNetworkStore(
       (s) => s.setSelectedProject
-    )
+    );
+
+  //--------------------------------------------------
+  // SPEECH STORE
+  //--------------------------------------------------
+
+  const speaking = useSpeechStore(
+    (s) => s.isSpeaking
+  );
+
+  const audioLevel =
+    useSpeechStore(
+      (s) => s.audioLevel
+    );
+
+  //--------------------------------------------------
+  // STATES
+  //--------------------------------------------------
 
   const isFocused =
     selectedProject?.id ===
-    project.id
+    project.id;
+
+  const isSpeaking =
+    isFocused && speaking;
 
     
 useFrame((state, delta) => {
